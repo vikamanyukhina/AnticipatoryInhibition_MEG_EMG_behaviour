@@ -44,9 +44,10 @@ The scripts are also based on the initial study but are not identical to those u
 
 ### 4. Burst and connectivity analysis
 
-- `10b-granger_2hemi_to_sma_duringbursts.py` — Granger causality analysis on selected beta-burst trials.
+- `10b-burst_detection_and_contrasts.py` — Beta-burst detection and burst-related analyses in the SMA, including Superlet time–frequency decomposition, aperiodic activity estimation, burst classification, burst-centred power analyses, and cluster-based permutation tests.
+- `10c-granger_2hemi_to_sma_duringbursts.py` — Granger causality analysis on selected beta-burst trials.
 
-Beta bursts were extracted using the pipeline of Szul et al. (2023) within the SMA label identified from the gamma–EMG inhibition correlation. The burst extraction pipeline itself is therefore not included here.
+Beta bursts were extracted using the pipeline of Szul et al. (2023) within the SMA label identified from the gamma–EMG inhibition correlation. The burst-detection script implements the extraction and subsequent analyses reported here.
 
 Cluster-based analyses are shown for representative frequency bands/regions and are not repeated when the same analysis was performed analogously elsewhere.
 
@@ -57,6 +58,7 @@ The following R scripts implement generalized additive models (GAMs) to investig
 - `behav_model_elbrot_vs_inh_to_github.R` — uses GAMs to test which EMG inhibition parameters predict elbow rotation (forearm stabilization).
 - `SMAlabel_gamma_beta_inh_to_github.R` — uses GAMs to validate findings from the correlation analyses on relationships between right SMA/IFC high-gamma power, beta power, and EMG inhibition, and to investigate how these relationships vary with EMG inhibition timing.
 - `SMAlabel_gammaburst_behav_td_children_to_github.R` — uses GAMs to investigate whether high-gamma power suppression at two burst times is associated with EMG inhibition parameters and elbow rotation.
+
 
 ## Automatic EMG inhibition detection
 
@@ -72,7 +74,7 @@ The supplementary figures illustrate examples of Biceps brachii inhibition event
 
 The analyses were performed using the following software and library versions:
 
-- Python 3.12
+- Python 3.7
 - MNE-Python 1.7.1
 - SciPy 1.13.1
 - scikit-learn 1.5.0
