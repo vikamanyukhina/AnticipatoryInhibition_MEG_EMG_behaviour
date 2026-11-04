@@ -57,6 +57,7 @@ The following R scripts implement generalized additive models (GAMs) to investig
 
 - `behav_model_elbrot_vs_inh_to_github.R` — uses GAMs to test which EMG inhibition parameters predict elbow rotation (forearm stabilization).
 - `SMAlabel_gamma_beta_inh_to_github.R` — uses GAMs to validate findings from the correlation analyses on relationships between right SMA/IFC high-gamma power, beta power, and EMG inhibition, and to investigate how these relationships vary with EMG inhibition timing.
+- `SMAlabel_alphabeta_predict_gamma_to_github.R` — uses GAMs to validate correlation analysis findings on the relationship between frequency-resolved beta power and high-gamma power. 
 - `SMAlabel_gammaburst_behav_td_children_to_github.R` — uses GAMs to investigate whether high-gamma power suppression at two burst times is associated with EMG inhibition parameters and elbow rotation.
 
 
