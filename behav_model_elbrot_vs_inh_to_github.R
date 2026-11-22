@@ -18,6 +18,8 @@ for (subj in subjects) {
   df_subj <- rbind(df_subj, df)
 }
 df_subj$Subject <- as.factor(df_subj$Subject)
+df_subj$Sex <- as.factor(df_subj$Sex)
+df_subj$Load <- as.factor(df_subj$Load)
 
 df_subj_filtered <- df_subj %>%
   filter(Inh_time>-0.07, Inh_time <= 0.15)
@@ -29,6 +31,7 @@ model_inh3 <- bam(PeakElbRot ~ s(Inh) + s(Inh_time) + s(Inh_onset) + s(Inh_dur) 
                     ti(Inh_dur,Inh_onset) + ti(Inh,Inh_onset) + ti(Inh,Inh_dur) + 
                     ti(Inh_dur,Inh_time) + ti(Inh,Inh_time) + ti(Inh_onset,Inh_time) +
                     s(Subject, Inh, bs='re') +  s(Subject, Inh_dur, bs='re') + s(Subject, Inh_onset, bs='re') + s(Subject, Inh_time, bs='re') + 
+                    s(Age) + Sex + Load + 
                     s(Subject, bs='re'), 
                   data = df_subj_filtered,
                   method = 'fREML')
@@ -160,3 +163,34 @@ p <- ggemmeans(model_inh3, terms = c("Inh_time [-0.07:0.15, by=0.015]",
 
 plot(p)
 ggsave("elbrot_vs_inh_behav_inh_vs_inhtime.svg", plot = p, width = 8, height = 4, units = "in")
+
+
+#AGE PREDICTION FROM INHIBITION AND ELBOW ROTATION
+
+
+df_age <- df_subj_filtered %>%
+  group_by(Subject) %>%
+  summarise(
+    Age = first(Age),
+    Inh = mean(Inh, na.rm = TRUE),
+    Inh_time = mean(Inh_time, na.rm = TRUE),
+    Inh_onset = mean(Inh_onset, na.rm = TRUE),
+    Inh_dur = mean(Inh_dur, na.rm = TRUE),
+    PeakElbRot = mean(PeakElbRot, na.rm = TRUE),
+    Load = first(Load),
+    Inh_time_var = first(Inh_time_var),
+    Inh_onset_var = first(Inh_onset_var),
+    Sex = first(Sex),
+    .groups = "drop"
+  )
+
+model_inh3 <- gam(Age ~ s(Inh) + s(Inh_time) +
+                    s(Inh_onset) + s(Inh_dur) + s(Inh_time_var) + s(Inh_onset_var) +
+                    s(PeakElbRot) + Sex + Load,
+                  data = df_age,
+                  method = 'REML')
+summary(model_inh3)
+plot_smooth(model_inh3, view = "Inh_time_var", rug = TRUE)
+plot_smooth(model_inh3, view = "PeakElbRot", rug = TRUE)
+
+
