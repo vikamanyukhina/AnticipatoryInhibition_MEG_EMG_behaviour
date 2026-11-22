@@ -19,6 +19,8 @@ for (subj in subjects) {
   df_subj <- rbind(df_subj, df)
 }
 df_subj$Subject <- as.factor(df_subj$Subject)
+df_subj$Sex <- as.factor(df_subj$Sex)
+df_subj$Load <- as.factor(df_subj$Load)
 
 df_subj_filtered <- df_subj %>%
   filter(Inh_time>-0.07, Inh_time <= 0.15)
@@ -29,6 +31,7 @@ df_subj_filtered <- df_subj %>%
 model_inh3 <- bam(Inh ~ s(Gamma) + s(Inh_time) +
                     ti(Gamma,Inh_time) +
                     s(Subject, Gamma, bs='re') + s(Subject, Inh_time, bs='re') +
+                    Sex + s(Age) + Load +
                     s(Subject, bs='re'), 
                   data = df_subj_filtered,
                   method = 'fREML')
@@ -101,6 +104,7 @@ ggsave("gamma_vs_inh_4SMA.svg", plot = p, width = 8, height = 4, units = "in")
 model_inh3 <- bam(Inh ~ s(Beta_early1_res) + s(Inh_time) +
                     ti(Beta_early1_res,Inh_time) +
                     s(Subject, Beta_early1_res, bs='re') + s(Subject, Inh_time, bs='re') +
+                    Sex + s(Age) + Load +
                     s(Subject, bs='re'), 
                   data = df_subj_filtered,
                   method = 'fREML')
@@ -159,6 +163,7 @@ ggsave("beta1_vs_inh_4SMA.svg", plot = p, width = 8, height = 4, units = "in")
 model_inh3 <- bam(Inh ~ s(Beta_early2_res) + s(Inh_time) +
                     ti(Beta_early2_res,Inh_time) +
                     s(Subject, Beta_early2_res, bs='re') + s(Subject, Inh_time, bs='re') +
+                    Sex + s(Age) + Load +
                     s(Subject, bs='re'), 
                   data = df_subj_filtered,
                   method = 'fREML')
